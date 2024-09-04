@@ -11,7 +11,7 @@ const httpClient = axios.create({
 export default httpClient;
 
 export const backendClient = axios.create({
-  baseURL: "http://64.227.170.212/api",
+  baseURL: "http://143.110.186.134/api",
   headers: {
     "Content-Type": "application/json",
   },

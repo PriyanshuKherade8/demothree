@@ -33,27 +33,36 @@ const Pageone = () => {
     mutate: sendRotateCall,
     isLoading: isMutating,
     error: mutationError,
+    data: allData,
   } = useMutation({
     mutationFn: (payload) => rotateCall(payload),
   });
-
+  console.log("zz", mutationError, allData);
   if (isLoading) return <>Loading...</>;
   if (error) return <>Error: {error.message}</>;
 
   const getData = data;
-  console.log("getata", getData?.sessionID);
+  console.log("getdata", getData?.experience?.controls?.[0]?.control_id);
   const experienceId = getData?.experience?.experience_id;
   const productKey = getData?.experience?.products[0]?.product_key;
   const sessionId = getData?.sessionID;
   const canvasUrl = "http://64.227.170.212";
   const url = `${canvasUrl}?experience=${experienceId}+&product=${productKey}+&session=${sessionId}`;
   console.log("url", url);
-
+  const controlId = getData?.experience?.controls?.[0]?.control_id;
   const handleRotate = () => {
-    const payload = { type: "xyz", defaultState: rotate };
+    const payload = {
+      session_id: sessionId,
+      message: {
+        type: "control",
+        message: { control_id: controlId, value: rotate.toString() },
+      },
+    };
+    console.log("payload", payload);
     sendRotateCall(payload);
     setRotate(!rotate);
   };
+
   return (
     <>
       <Box
